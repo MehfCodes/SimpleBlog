@@ -13,7 +13,7 @@ public class Comment
     public Guid PostId { get; set; }
     public required Post Post { get; set; }
 
-    public int AuthorId { get; set; }
+    public Guid AuthorId { get; set; }
     public required User Author { get; set; }
 
 }

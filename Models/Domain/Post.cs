@@ -13,7 +13,7 @@ public class Post
     public string? FeaturedImageUrl { get; set; }
 
     // Foreign key
-    public int AuthorId { get; set; }
+    public Guid AuthorId { get; set; }
     public required User Author { get; set; }
 
     // Navigation properties
