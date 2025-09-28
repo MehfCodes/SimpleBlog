@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.Identity;
 using SimpleBlog.Data;
 using SimpleBlog.Models.Domain;
 
@@ -8,14 +9,15 @@ public static class IdentifyConfiguration
 {
     public static IServiceCollection AddIdentify(this IServiceCollection services)
     {
-        services.AddDefaultIdentity<User>(options =>
+        services.AddIdentity<User, IdentityRole<Guid>>(options =>
         {
             options.Password.RequireDigit = true;
             options.Password.RequiredLength = 6;
             options.Password.RequireUppercase = true;
             options.Password.RequireNonAlphanumeric = true;
         })
-        .AddEntityFrameworkStores<AppDbContext>();
+        .AddEntityFrameworkStores<AppDbContext>()
+        .AddDefaultTokenProviders();
         return services;
     }
 }
