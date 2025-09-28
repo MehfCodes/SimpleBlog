@@ -10,4 +10,6 @@ public class Like
     // Foreign key
     public Guid PostId { get; set; }
     public required Post Post { get; set; }
+    public int AuthorId { get; set; }
+    public required User Author { get; set; }
 }

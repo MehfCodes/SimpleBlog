@@ -12,6 +12,10 @@ public class Post
     public string? ShortDescription { get; set; }
     public string? FeaturedImageUrl { get; set; }
 
+    // Foreign key
+    public int AuthorId { get; set; }
+    public required User Author { get; set; }
+
     // Navigation properties
     public ICollection<Comment> Comments { get; set; } = [];
     public ICollection<Tag> Tags { get; set; } = [];
