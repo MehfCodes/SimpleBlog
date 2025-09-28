@@ -8,7 +8,7 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddIdentify();
-
+builder.Services.AddRepository();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
