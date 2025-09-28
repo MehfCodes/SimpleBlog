@@ -5,7 +5,6 @@ namespace SimpleBlog.Models.Domain;
 
 public class User : IdentityUser<Guid>
 {
-    public required string Username { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     // Navigation properties
