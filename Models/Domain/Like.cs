@@ -1,0 +1,13 @@
+using System;
+
+namespace SimpleBlog.Models.Domain;
+
+public class Like
+{
+    public Guid Id { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    // Foreign key
+    public Guid PostId { get; set; }
+    public required Post Post { get; set; }
+}

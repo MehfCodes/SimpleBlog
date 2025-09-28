@@ -11,4 +11,9 @@ public class Post
     public bool IsPublished { get; set; } = true;
     public string? ShortDescription { get; set; }
     public string? FeaturedImageUrl { get; set; }
+
+    // Navigation properties
+    public ICollection<Comment> Comments { get; set; } = [];
+    public ICollection<Tag> Tags { get; set; } = [];
+    public ICollection<Like> Likes { get; set; } = [];
 }
