@@ -21,15 +21,6 @@ namespace SimpleBlog.Controllers
             return View(tags);
         }
 
-        // GET: /tags/{id}
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Details(Guid id)
-        {
-            var tag = await tagRepository.GetByIdAsync(id);
-            if (tag == null) return NotFound();
-            return View(tag);
-        }
-
         // GET: /tags/create
         [HttpGet("create")]
         public IActionResult Create()
