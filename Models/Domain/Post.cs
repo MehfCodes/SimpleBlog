@@ -14,7 +14,7 @@ public class Post
 
     // Foreign key
     public Guid AuthorId { get; set; }
-    public required User Author { get; set; }
+    public required ApplicationUser Author { get; set; }
 
     // Navigation properties
     public ICollection<Comment> Comments { get; set; } = [];

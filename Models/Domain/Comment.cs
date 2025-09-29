@@ -5,7 +5,6 @@ namespace SimpleBlog.Models.Domain;
 public class Comment
 {
     public Guid Id { get; set; }
-    public required string AuthorName { get; set; }
     public required string Content { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
@@ -14,6 +13,6 @@ public class Comment
     public required Post Post { get; set; }
 
     public Guid AuthorId { get; set; }
-    public required User Author { get; set; }
+    public required ApplicationUser Author { get; set; }
 
 }

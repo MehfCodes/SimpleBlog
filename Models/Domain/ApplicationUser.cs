@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace SimpleBlog.Models.Domain;
 
-public class User : IdentityUser<Guid>
+public class ApplicationUser : IdentityUser<Guid>
 {
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 

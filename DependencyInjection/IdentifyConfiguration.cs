@@ -9,7 +9,7 @@ public static class IdentifyConfiguration
 {
     public static IServiceCollection AddIdentify(this IServiceCollection services)
     {
-        services.AddIdentity<User, IdentityRole<Guid>>(options =>
+        services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
         {
             options.Password.RequireDigit = true;
             options.Password.RequiredLength = 6;
