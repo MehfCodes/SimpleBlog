@@ -11,6 +11,9 @@ builder.Services.AddIdentify();
 builder.Services.AddRepository();
 var app = builder.Build();
 
+// Seed Data
+await app.Services.SeedDatabaseAsync();
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
