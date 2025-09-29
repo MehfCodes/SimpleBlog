@@ -18,27 +18,27 @@
         <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
         <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal_@Model.Id">Delete</a>
          @* Modal *@
-                    <div class="modal fade" id="deleteModal_@Model.Id" tabindex="-1" aria-labelledby="deleteModalLabel_@Model.Id" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header bg-danger text-white">
-                                    <h5 class="modal-title" id="deleteModalLabel_@Model.Id">Confirm Delete</h5>
-                                    <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Are you sure you want to delete the post "<b>@Model.Title</b>"?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-
-                                    <form asp-action="Delete" method="post" class="d-inline">
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="id" value="@Model.Id" />
-                                        <button type="submit" class="btn btn-danger">Yes</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+        <div class="modal fade" id="deleteModal_@Model.Id" tabindex="-1" aria-labelledby="deleteModalLabel_@Model.Id" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="deleteModalLabel_@Model.Id">Confirm Delete</h5>
+                        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete the post "<b>@Model.Title</b>"?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+
+                        <form asp-action="Delete" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="btn btn-danger">Yes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
