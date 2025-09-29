@@ -5,7 +5,7 @@ using SimpleBlog.Models.Domain;
 
 namespace SimpleBlog.Repository;
 
-public class TagRepository
+public class TagRepository : ITagRepository
 {
     private readonly AppDbContext context;
 
