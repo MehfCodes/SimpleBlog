@@ -1,4 +1,4 @@
-﻿@model SimpleBlog.Models.Domain.Post
+﻿@model SimpleBlog.Models.ViewModel.PostEditViewModel;
 @{
     ViewData["Title"] = "Edit Post";
 }
@@ -21,9 +21,11 @@
         <span asp-validation-for="Content" class="text-danger"></span>
     </div>
 
-     <div class="form-group mb-3">
-        <label asp-for="Tags" class="form-label"></label>
-        <input name="Tags" class="form-control" placeholder="Enter tags separated by commas" />
+    <div class="mb-3">
+        <label asp-for="SelectedTagIds" class="form-label">Tags</label>
+        <select asp-for="SelectedTagIds" asp-items="Model.AllTags" class="form-select" multiple>
+            <option value="">-- Select a Tag --</option>
+        </select>
     </div>
 
     <button type="submit" class="btn btn-success">Update</button>
