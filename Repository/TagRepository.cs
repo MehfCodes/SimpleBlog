@@ -50,4 +50,11 @@ public class TagRepository : ITagRepository
     {
         return await context.Tags.AnyAsync(t => t.Id == id);
     }
+
+    public async Task<IEnumerable<Tag>> GetByIdsAsync(IEnumerable<Guid> ids)
+    {
+        return await context.Tags
+            .Where(t => ids.Contains(t.Id))
+            .ToListAsync();
+    }
 }

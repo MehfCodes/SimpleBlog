@@ -7,6 +7,7 @@ public interface ITagRepository
 {
     Task<IEnumerable<Tag>> GetAllAsync();
     Task<Tag?> GetByIdAsync(Guid id);
+    Task<IEnumerable<Tag>> GetByIdsAsync(IEnumerable<Guid> ids);
     Task AddAsync(Tag tag);
     Task UpdateAsync(Tag tag);
     Task DeleteAsync(Guid id);
