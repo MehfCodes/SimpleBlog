@@ -87,7 +87,7 @@ namespace SimpleBlog.Controllers
                 CreatedAt = DateTime.UtcNow,
                 Tags = [.. selectedTags],
                 AuthorId = testUserId,
-                Author = testUser!
+                // Author = testUser!
             };
 
             await postRepository.AddAsync(post);
