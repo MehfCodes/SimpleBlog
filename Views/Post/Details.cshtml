@@ -31,7 +31,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
 
-                        <form asp-action="Delete" method="post" class="d-inline">
+                        <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline">
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="id" value="@Model.Id" />
                             <button type="submit" class="btn btn-danger">Yes</button>
