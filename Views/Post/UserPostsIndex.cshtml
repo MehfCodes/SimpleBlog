@@ -1,0 +1,68 @@
+﻿@model List<SimpleBlog.Models.Domain.Post>
+
+<h1>Your Posts</h1>
+
+<div class="container m-5">
+<a asp-action="Create" class="btn btn-primary mb-5">
+    <i class="bi bi-plus-lg fw-bold"></i> Create New Post
+</a>
+
+@if (Model != null && Model.Any())
+{
+    <div class="container col-10">
+    <table class="table table-hover table-responsive text-center">
+        <thead>
+            <tr class="align-middle text-center table-dark">
+                <th>Title</th>
+                <th>Author</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var post in Model)
+        {
+            <tr class="align-middle text-center">
+                <td class="py-3"><a asp-action="UserPostDetails" asp-route-id="@post.Id" class="text-dark text-decoration-none" style="cursor: pointer;">@post.Title</a></td>
+                <td class="py-3">@(post.Author?.UserName ?? "Unknown")</td>
+                <td class="py-3">@post.CreatedAt.ToString("yyyy-MM-dd")</td>
+                <td class="py-3">
+                    <a asp-action="Edit" asp-route-id="@post.Id" class="btn btn-sm btn-primary">Edit</a> 
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal_@post.Id">
+                        Delete
+                    </button>
+                      @* Modal *@
+                    <div class="modal fade" id="deleteModal_@post.Id" tabindex="-1" aria-labelledby="deleteModalLabel_@post.Id" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header bg-danger text-white">
+                                    <h5 class="modal-title" id="deleteModalLabel_@post.Id">Confirm Delete</h5>
+                                    <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to delete the post "<b>@post.Title</b>"?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+
+                                    <form asp-action="Delete" asp-route-id="@post.Id" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@post.Id" />
+                                        <button type="submit" class="btn btn-danger">Yes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    </div>
+}
+else
+{
+    <h3>No posts available</h3>
+}
+</div>

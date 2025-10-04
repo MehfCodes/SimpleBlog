@@ -9,7 +9,6 @@ using SimpleBlog.Repository;
 
 namespace SimpleBlog.Controllers
 {
-    [Route("posts")]
     public class PostController : Controller
     {
         private readonly IPostRepository postRepository;
@@ -22,13 +21,23 @@ namespace SimpleBlog.Controllers
             this.tagRepository = tagRepository;
             this.userManager = userManager;
         }
+        [HttpGet("posts")]
         public async Task<ActionResult> Index()
         {
             var posts = await postRepository.GetAllAsync();
             return View(posts);
         }
 
-        [HttpGet("{id}")]
+        [Authorize]
+        [HttpGet("user/posts")]
+        public async Task<IActionResult> UserPostsIndex()
+        {
+            var currentUser = await userManager.GetUserAsync(User);
+            if (currentUser == null) return Challenge();
+            var posts = await postRepository.GetByUserIdAsync(currentUser.Id);
+            return View(posts);
+        }
+        [HttpGet("posts/{id}")]
         public async Task<IActionResult> Details(Guid id)
         {
             var post = await postRepository.GetByIdAsync(id);
@@ -39,7 +48,20 @@ namespace SimpleBlog.Controllers
             return View(post);
         }
 
-        [HttpGet("create")]
+        [Authorize]
+        [HttpGet("user/posts/{id}")]
+        public async Task<IActionResult> UserPostDetails(Guid id)
+        {
+            var post = await postRepository.GetByIdAsync(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            return View(post);
+        }
+
+        [Authorize]
+        [HttpGet("/user/posts/create")]
         public async Task<IActionResult> Create()
         {
             var tags = await tagRepository.GetAllAsync();
@@ -53,8 +75,9 @@ namespace SimpleBlog.Controllers
             };
             return View(vm);
         }
-        // [Authorize]
-        [HttpPost("create")]
+
+        [Authorize]
+        [HttpPost("/user/posts/create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PostCreateViewModel model)
         {
@@ -70,14 +93,14 @@ namespace SimpleBlog.Controllers
             }
 
             var selectedTags = await tagRepository.GetByIdsAsync(model.SelectedTagIds);
-            // var currentUser = await userManager.GetUserAsync(User);
+            var currentUser = await userManager.GetUserAsync(User);
             // var currentUserId = userManager.GetUserId(User);
-            var testUserId = Guid.Parse("11111111-1111-1111-1111-111111111111");
-            var testUser = new ApplicationUser
-            {
-                Id = testUserId,
-                UserName = "TestUser"
-            };
+            // var testUserId = Guid.Parse("11111111-1111-1111-1111-111111111111");
+            // var testUser = new ApplicationUser
+            // {
+            //     Id = testUserId,
+            //     UserName = "TestUser"
+            // };
 
             var post = new Post
             {
@@ -86,15 +109,16 @@ namespace SimpleBlog.Controllers
                 Content = model.Content,
                 CreatedAt = DateTime.UtcNow,
                 Tags = [.. selectedTags],
-                AuthorId = testUserId,
-                // Author = testUser!
+                AuthorId = currentUser!.Id,
+                Author = currentUser
             };
 
             await postRepository.AddAsync(post);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(UserPostsIndex));
         }
 
-        [HttpGet("edit/{id}")]
+        [Authorize]
+        [HttpGet("/user/posts/edit/{id}")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var post = await postRepository.GetByIdAsync(id);
@@ -113,7 +137,8 @@ namespace SimpleBlog.Controllers
             return View(model);
         }
 
-        [HttpPost("edit/{id}")]
+        [Authorize]
+        [HttpPost("/user/posts/edit/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(PostEditViewModel model)
         {
@@ -139,29 +164,19 @@ namespace SimpleBlog.Controllers
 
             await postRepository.UpdateAsync(post);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(UserPostsIndex));
         }
 
-        [HttpGet("delete/{id}")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var post = await postRepository.GetByIdAsync(id);
-            if (post == null)
-            {
-                return NotFound();
-            }
-            return View(post);
-        }
-
-        [HttpPost("delete/{id}"), ActionName("Delete")]
+        [Authorize]
+        [HttpPost("/user/posts/delete/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             await postRepository.DeleteAsync(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(UserPostsIndex));
         }
 
-        [HttpGet("search")]
+        [HttpGet("posts/search")]
         public async Task<IActionResult> Search(string q)
         {
             var posts = await postRepository.SearchAsync(q);

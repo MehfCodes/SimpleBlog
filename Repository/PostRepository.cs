@@ -68,4 +68,13 @@ public class PostRepository : IPostRepository
             .ToListAsync();
         return posts;
     }
+    public async Task<IEnumerable<Post>> GetByUserIdAsync(Guid userId)
+    {
+        return await context.Posts
+            .Include(p => p.Author)
+            .Include(p => p.Tags)
+            .Where(p => p.AuthorId == userId)
+            .ToListAsync();
+    }
+
 }

@@ -10,5 +10,6 @@ public interface IPostRepository
     Task UpdateAsync(Post post);
     Task DeleteAsync(Guid id);
     Task<bool> ExistsAsync(Guid id);
-     Task<IEnumerable<Post>> SearchAsync(string keyword);
+    Task<IEnumerable<Post>> SearchAsync(string keyword);
+    Task<IEnumerable<Post>> GetByUserIdAsync(Guid userId);
 }
