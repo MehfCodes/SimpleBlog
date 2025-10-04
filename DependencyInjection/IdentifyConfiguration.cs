@@ -18,6 +18,13 @@ public static class IdentifyConfiguration
         })
         .AddEntityFrameworkStores<AppDbContext>()
         .AddDefaultTokenProviders();
+
+        services.ConfigureApplicationCookie(options =>
+        {
+            options.LoginPath = "/login"; 
+            options.LogoutPath = "/logout";
+            options.AccessDeniedPath = "/access-denied";
+        });
         return services;
     }
 }
