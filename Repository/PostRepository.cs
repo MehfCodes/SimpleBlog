@@ -59,12 +59,12 @@ public class PostRepository : IPostRepository
     }
     public async Task<IEnumerable<Post>> SearchAsync(string keyword)
     {
-        if (string.IsNullOrWhiteSpace(keyword))
-            return await GetAllAsync();
+        if (string.IsNullOrWhiteSpace(keyword)) return await GetAllAsync();
         var posts = await context.Posts
             .Include(p => p.Author)
             .Include(p => p.Tags)
-            .Where(p => p.Title.Contains(keyword) || p.Content.Contains(keyword))
+            .Where(p => EF.Functions.Like(p.Title.ToLower(), $"%{keyword.ToLower()}%") ||
+                        EF.Functions.Like(p.Content.ToLower(), $"%{keyword.ToLower()}%"))
             .ToListAsync();
         return posts;
     }

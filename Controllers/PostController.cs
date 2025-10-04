@@ -112,7 +112,7 @@ namespace SimpleBlog.Controllers
 
             return View(model);
         }
-        
+
         [HttpPost("edit/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(PostEditViewModel model)
@@ -141,7 +141,7 @@ namespace SimpleBlog.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        
+
         [HttpGet("delete/{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -161,5 +161,12 @@ namespace SimpleBlog.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet("search")]
+        public async Task<IActionResult> Search(string q)
+        {
+            var posts = await postRepository.SearchAsync(q);
+            ViewBag.q = q;
+            return View(posts);
+        }
     }
 }
