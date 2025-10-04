@@ -57,4 +57,15 @@ public class PostRepository : IPostRepository
         context.Posts.Update(post);
         await context.SaveChangesAsync();
     }
+    public async Task<IEnumerable<Post>> SearchAsync(string keyword)
+    {
+        if (string.IsNullOrWhiteSpace(keyword))
+            return await GetAllAsync();
+        var posts = await context.Posts
+            .Include(p => p.Author)
+            .Include(p => p.Tags)
+            .Where(p => p.Title.Contains(keyword) || p.Content.Contains(keyword))
+            .ToListAsync();
+        return posts;
+    }
 }
