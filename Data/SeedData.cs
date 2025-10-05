@@ -66,10 +66,10 @@ namespace SimpleBlog.Data
             {
                 var comments = new List<Comment>
                 {
-                    new() { Content = "Great post!", Post = allPosts[0], Author = allUsers[1], CreatedAt = DateTime.UtcNow },
-                    new() { Content = "Thanks for sharing", Post = allPosts[1], Author = allUsers[0], CreatedAt = DateTime.UtcNow },
-                    new() { Content = "Very useful", Post = allPosts[2], Author = allUsers[3], CreatedAt = DateTime.UtcNow },
-                    new() { Content = "Nice article", Post = allPosts[3], Author = allUsers[2], CreatedAt = DateTime.UtcNow }
+                    new() { Content = "Great post!", Post = allPosts[0], User = allUsers[1], CreatedAt = DateTime.UtcNow },
+                    new() { Content = "Thanks for sharing", Post = allPosts[1], User = allUsers[0], CreatedAt = DateTime.UtcNow },
+                    new() { Content = "Very useful", Post = allPosts[2], User = allUsers[3], CreatedAt = DateTime.UtcNow },
+                    new() { Content = "Nice article", Post = allPosts[3], User = allUsers[2], CreatedAt = DateTime.UtcNow }
                 };
                 context.Comments.AddRange(comments);
                 await context.SaveChangesAsync();
@@ -80,10 +80,10 @@ namespace SimpleBlog.Data
             {
                 var likes = new List<Like>
                 {
-                    new() { Post = allPosts[0], Author = allUsers[2] },
-                    new() { Post = allPosts[1], Author = allUsers[3] },
-                    new() { Post = allPosts[2], Author = allUsers[0] },
-                    new() { Post = allPosts[3], Author = allUsers[1] }
+                    new() { Post = allPosts[0], User = allUsers[2] },
+                    new() { Post = allPosts[1], User = allUsers[3] },
+                    new() { Post = allPosts[2], User = allUsers[0] },
+                    new() { Post = allPosts[3], User = allUsers[1] }
                 };
                 context.Likes.AddRange(likes);
                 await context.SaveChangesAsync();
