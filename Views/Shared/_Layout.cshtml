@@ -18,8 +18,8 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SimpleBlog</a>
+            <div class="container">
+                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">SimpleBlog</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -45,6 +45,12 @@
                                 width="35" height="35" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" asp-controller="Post" asp-action="UserPostsIndex">Dashboard</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
                             <li>
                                 <a class="dropdown-item" asp-controller="Account" asp-action="Profile">Profile</a>
                             </li>

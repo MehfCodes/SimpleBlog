@@ -1,8 +1,105 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<div class="container py-5">
+    <!-- Hero Section -->
+    <section class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-dark">Welcome to SimpleBlog</h1>
+        <p class="lead text-secondary">It's a minimal platform to share your thoughts, stories, and experiences.</p>
+        <div class="mt-4">
+            <a href="/posts" class="btn btn-primary btn-lg mx-2">Explore Posts</a>
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <a href="/login" class="btn btn-outline-secondary btn-lg mx-2">Login</a>
+                <a href="/register" class="btn btn-outline-dark btn-lg mx-2">Register</a>
+            }
+            else
+            {
+                <a href="/user/posts" class="btn btn-outline-success btn-lg mx-2">My Posts</a>
+                <a href="/logout" class="btn btn-outline-danger btn-lg mx-2">Logout</a>
+            }
+        </div>
+    </section>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <!-- About Section -->
+    <section class="my-5">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h2 class="fw-semibold mb-3">What is SimpleBlog?</h2>
+                <p class="text-secondary">
+                    SimpleBlog is a minimalist blogging platform where anyone can express themselves freely.
+                    Write about your experiences, share your passions, or discuss ideas with a like-minded community.
+                </p>
+                <p class="text-secondary">
+                    Our goal is to keep things simple and beautiful — so you can focus on writing, not on clutter.
+                </p>
+            </div>
+            <div class="col-md-6 text-center">
+                <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800&auto=format&fit=crop&q=80" 
+                     class="img-fluid rounded shadow-sm" alt="Blog illustration">
+            </div>
+        </div>
+    </section>
+
+    <hr class="my-5" />
+
+    <!-- Featured Topics -->
+    <section class="my-5">
+        <h2 class="fw-semibold mb-4 text-center">Featured Topics</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card border-0 shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&auto=format&fit=crop&q=80" 
+                         class="card-img-top" alt="Lifestyle">
+                    <div class="card-body">
+                        <h5 class="card-title">Lifestyle & Wellbeing</h5>
+                        <p class="card-text text-secondary">Tips for living a more mindful and balanced life.</p>
+                        <a href="#" class="text-decoration-none">Read more →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card border-0 shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&auto=format&fit=crop&q=80" 
+                         class="card-img-top" alt="Tech">
+                    <div class="card-body">
+                        <h5 class="card-title">Technology & Coding</h5>
+                        <p class="card-text text-secondary">Learn new tools, frameworks, and coding techniques.</p>
+                        <a href="#" class="text-decoration-none">Explore →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card border-0 shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&auto=format&fit=crop&q=80" 
+                         class="card-img-top" alt="Writing">
+                    <div class="card-body">
+                        <h5 class="card-title">Writing & Creativity</h5>
+                        <p class="card-text text-secondary">Find inspiration to write and express yourself better.</p>
+                        <a href="#" class="text-decoration-none">Discover →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="my-5" />
+
+    <!-- Newsletter -->
+    <section class="my-5 text-center">
+        <h3 class="fw-semibold mb-3">Stay Updated</h3>
+        <p class="text-secondary mb-4">Subscribe to our newsletter and never miss an update!</p>
+        <form class="row justify-content-center">
+            <div class="col-md-4">
+                <input type="email" class="form-control form-control-lg mb-3" placeholder="Enter your email">
+            </div>
+            <div class="col-md-auto">
+                <button type="submit" class="btn btn-primary btn-lg">Subscribe</button>
+            </div>
+        </form>
+    </section>
 </div>
+
+<footer class="bg-light py-4 mt-5 border-top">
+    <div class="container text-center">
+        <p class="mb-1 text-secondary">&copy; @DateTime.Now.Year SimpleBlog. All rights reserved.</p>
+        <small class="text-muted">Made By Mehf with ❤️ using ASP.NET Core MVC & Bootstrap 5</small>
+    </div>
+</footer>
