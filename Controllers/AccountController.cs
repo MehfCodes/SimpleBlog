@@ -79,11 +79,55 @@ namespace SimpleBlog.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-        [HttpGet]
+        [HttpGet("user/profile")]
         public async Task<IActionResult> Profile()
         {
             var user = await userManager.GetUserAsync(User);
             return View(user);
+        }
+
+        [HttpGet("user/profile/edit")]
+        public async Task<IActionResult> EditProfile()
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+
+            var model = new EditProfileViewModel
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost("user/profile/edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateProfile(EditProfileViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+
+            user.UserName = model.UserName;
+            user.Email = model.Email;
+
+            var result = await userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError("", error.Description);
+
+                return View(model);
+            }
+
+            // update session
+            await signInManager.RefreshSignInAsync(user);
+
+            TempData["Success"] = "Your profile has been updated successfully!";
+            return RedirectToAction(nameof(Profile));
         }
 
     }
