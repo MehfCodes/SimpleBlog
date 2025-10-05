@@ -2,16 +2,57 @@
 @{
     ViewData["Title"] = "Post Details";
 }
-
+<br/>
+<br/>
+<br/>
 <h2>@Model.Title</h2>
+<br/>
 <p><b>Author:</b> @(Model.Author?.UserName ?? "Unknown")</p>
 <p><b>Created:</b> @Model.CreatedAt.ToString("yyyy-MM-dd")</p>
 <hr />
 <p>@Model.Content</p>
 
 
-<div class="d-flex justify-content-between align-items-center mb-3 mt-5">
-    <div>
-        <a asp-action="Index" class="btn btn-dark">Back to List</a>
-    </div>
+
+
+<hr />
+
+<div class="d-flex align-items-center gap-3">
+    <form asp-action="ToggleLike" asp-route-postId="@Model.Id" method="post">
+        <button type="submit" class="btn btn-outline-danger">
+            ❤️ Like (@Model.Likes.Count)
+        </button>
+    </form>
 </div>
+
+<hr />
+
+<h4>Comments</h4>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <form asp-action="AddComment" asp-route-postId="@Model.Id" method="post">
+        @Html.AntiForgeryToken()
+        <div class="mb-3">
+            <textarea name="content" class="form-control" placeholder="Write a comment..." rows="3"></textarea>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-3 mt-5">
+            <a asp-action="Index" class="btn btn-dark">Back to List</a>
+            <button type="submit" class="btn btn-primary">Add Comment</button>
+        </div>
+    </form>
+}
+
+<br/>
+<br/>
+<ul class="list-unstyled mt-3">
+    @foreach (var comment in Model.Comments.OrderByDescending(c => c.CreatedAt))
+    {
+        <li class="border rounded p-2 mb-2">
+            <b class="m-3 p-1">@comment.User.UserName</b>
+            <small class="text-muted">(@comment.CreatedAt.ToLocalTime())</small>
+            <p class="m-2" style="text-indent: 2em">@comment.Content</p>
+        </li>
+    }
+</ul>
+

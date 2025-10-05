@@ -9,6 +9,8 @@ public static class RepositoryConfiguration
     {
         services.AddScoped<IPostRepository, PostRepository>();
         services.AddScoped<ITagRepository, TagRepository>();
+        services.AddScoped<ILikeRepository, LikeRepository>();
+        services.AddScoped<ICommentRepository, CommentRepository>();
         return services;
     }
 }

@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +12,20 @@ namespace SimpleBlog.Controllers
     {
         private readonly IPostRepository postRepository;
         private readonly ITagRepository tagRepository;
+        private readonly ILikeRepository likeRepository;
+        private readonly ICommentRepository commentRepository;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public PostController(IPostRepository postRepository, ITagRepository tagRepository, UserManager<ApplicationUser> userManager)
+        public PostController(IPostRepository postRepository,
+         ITagRepository tagRepository,
+         ILikeRepository likeRepository,
+         ICommentRepository commentRepository,
+         UserManager<ApplicationUser> userManager)
         {
             this.postRepository = postRepository;
             this.tagRepository = tagRepository;
+            this.likeRepository = likeRepository;
+            this.commentRepository = commentRepository;
             this.userManager = userManager;
         }
         [HttpGet("posts")]
@@ -183,5 +190,41 @@ namespace SimpleBlog.Controllers
             ViewBag.q = q;
             return View(posts);
         }
+
+        [Authorize]
+        [HttpPost("like/{postId}")]
+        public async Task<IActionResult> ToggleLike(Guid postId)
+        {
+            var userId = Guid.Parse(userManager.GetUserId(User)!);
+            var hasLiked = await likeRepository.HasUserLikedAsync(postId, userId);
+
+            if (hasLiked)
+                await likeRepository.RemoveLikeAsync(postId, userId);
+            else
+                await likeRepository.AddLikeAsync(new Like { PostId = postId, UserId = userId });
+
+            return RedirectToAction("Details", new { id = postId });
+        }
+
+        [Authorize]
+        [HttpPost("comment/{postId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddComment(Guid postId, string content)
+        {
+            if (string.IsNullOrWhiteSpace(content))
+                return RedirectToAction("Details", new { id = postId });
+
+            var userId = Guid.Parse(userManager.GetUserId(User)!);
+            var comment = new Comment
+            {
+                PostId = postId,
+                UserId = userId,
+                Content = content
+            };
+
+            await commentRepository.AddCommentAsync(comment);
+            return RedirectToAction("Details", new { id = postId });
+        }
+
     }
 }
