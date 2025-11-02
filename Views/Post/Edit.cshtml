@@ -17,7 +17,7 @@
 
     <div class="mb-3">
         <label asp-for="Content" class="form-label"></label>
-        <textarea asp-for="Content" class="form-control"></textarea>
+        <textarea asp-for="Content" id="content" class="form-control"></textarea>
         <span asp-validation-for="Content" class="text-danger"></span>
     </div>
 
@@ -31,3 +31,8 @@
     <button type="submit" class="btn btn-success">Update</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
+@section Scripts {
+   <script>
+            let editor = new FroalaEditor("#content");
+   </script>
+}

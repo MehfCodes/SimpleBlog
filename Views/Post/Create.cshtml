@@ -17,7 +17,7 @@
 
     <div class="form-group mb-3">
         <label asp-for="Content" class="form-label"></label>
-        <textarea asp-for="Content" class="form-control" rows="6"></textarea>
+        <textarea asp-for="Content" id="content"" class="form-control" rows="6"></textarea>
         <span asp-validation-for="Content" class="text-danger"></span>
     </div>
     <div class="mb-3">
@@ -34,4 +34,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+   <script>
+            let editor = new FroalaEditor("#content");
+   </script>
 }
