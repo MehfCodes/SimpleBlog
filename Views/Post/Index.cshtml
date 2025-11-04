@@ -21,20 +21,23 @@
             @foreach (var post in Model)
             {
                 <div class="col-md-4 mb-3">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body">
+                    <div class="shadow-sm border-0 hover-card">
+                        <div style="height: 250px; overflow: hidden;">
+                            <img src=@post.FeaturedImageUrl class="card-img-top w-100 h-100" style="object-fit: cover;" alt="Post">
+                        </div>
+                        <div class="card-body p-4">
                             <h5 class="card-title">@post.Title</h5>
                             <p class="card-text text-muted">
                                 @post.Content.Substring(0, Math.Min(post.Content.Length, 100))...
                             </p>
                             <p class="text-start">
                                 <small class="text-secondary">
-                                    Author is <span class="fw-bold"> @post.Author?.UserName </span>
+                                    Written By <span class="fw-bold"> @post.Author?.UserName </span>
                                 </small>
                             </p>
                             <div class="text-end">
                                 <a asp-controller="Post" asp-action="Details" asp-route-id="@post.Id"
-                               class="btn btn-outline-primary btn-sm">Details</a>
+                               class="btn btn-outline-dark btn-sm">Details</a>
                             </div>
                         </div>
                     </div>
