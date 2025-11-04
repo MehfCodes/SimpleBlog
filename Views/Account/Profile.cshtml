@@ -1,15 +1,124 @@
-﻿@model SimpleBlog.Models.Domain.ApplicationUser;
+﻿@model SimpleBlog.Models.Domain.ApplicationUser
 
-<h2>Profile</h2>
+<section class="container my-5">
+    <div class="row g-4">
+        <!-- User Info Card -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 profile-card">
+                <div class="card-body text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" 
+                         class="rounded-circle mb-3 profile-img" 
+                         width="120" height="120" 
+                         alt="Profile Picture">
+                    <h3 class="card-title">@Model.UserName</h3>
+                    <p class="text-muted mb-1">@Model.Email</p>
+                    <p class="text-muted small">Joined: @Model.CreatedAt.ToString("MMMM dd, yyyy")</p>
+                    <a asp-action="EditProfile" class="btn btn-primary mt-3 btn-lg w-100">Edit Profile</a>
+                </div>
+            </div>
+        </div>
 
-<div class="container">
-    <br/>
-    <br/>
-    <p><strong>Username:</strong> @Model.UserName</p>
-    <p><strong>Email:</strong> @Model.Email</p>
-    <br/>
-</div>
+        <!-- Activity Summary Card -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 activity-card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Activity Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <h4 class="fw-bold counter" data-count="@Model.Posts.Count()">0</h4>
+                            <small class="text-muted">Posts</small>
+                        </div>
+                        <div class="col-4">
+                            <h4 class="fw-bold counter" data-count="@Model.Comments.Count()">0</h4>
+                            <small class="text-muted">Comments</small>
+                        </div>
+                        <div class="col-4">
+                            <h4 class="fw-bold counter" data-count="@Model.Likes.Count()">0</h4>
+                            <small class="text-muted">Likes</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
- <div class="d-flex gap-2 justify-content-end">
-    <a asp-action="EditProfile" class="btn btn-primary">Edit Profile</a>
- </div>
+            <!-- Recent Posts Card -->
+            <div class="card shadow-sm border-0 recent-posts-card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Your Recent Posts</h5>
+                </div>
+                <div class="card-body">
+                    @if(Model.Posts.Any())
+                    {
+                        <div class="row g-3">
+                            @foreach(var post in Model.Posts.OrderByDescending(p => p.CreatedAt).Take(5))
+                            {
+                                <div class="col-md-6">
+                                    <div class="card hover-card shadow-sm border-0">
+                                        <div class="card-body">
+                                            <a asp-controller="Post" asp-action="Details" asp-route-id="@post.Id" class="text-decoration-none h6 d-block mb-2">
+                                                @post.Title
+                                            </a>
+                                            <small class="text-muted">@post.CreatedAt.ToString("MMM dd, yyyy")</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted">You haven’t created any posts yet.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Cards hover effect */
+.profile-card, .activity-card, .recent-posts-card, .hover-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.profile-card:hover, .activity-card:hover, .recent-posts-card:hover, .hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* Profile image hover effect */
+.profile-img {
+    transition: transform 0.3s ease;
+}
+.profile-img:hover {
+    transform: scale(1.1);
+}
+
+/* Counter animation */
+.counter {
+    font-size: 2rem;
+    color: #000000; /* Bootstrap primary blue */
+    transition: all 0.5s ease;
+}
+</style>
+
+<script>
+// Animate counters
+document.addEventListener("DOMContentLoaded", function() {
+    const counters = document.querySelectorAll(".counter");
+    counters.forEach(counter => {
+        const updateCount = () => {
+            const target = +counter.getAttribute("data-count");
+            const count = +counter.innerText;
+            const increment = target / 50; // speed
+            if(count < target) {
+                counter.innerText = Math.ceil(count + increment);
+                setTimeout(updateCount, 20);
+            } else {
+                counter.innerText = target;
+            }
+        };
+        updateCount();
+    });
+});
+</script>

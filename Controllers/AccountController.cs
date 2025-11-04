@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SimpleBlog.Models.Domain;
 using SimpleBlog.Models.ViewModel;
+using SimpleBlog.Repository;
 
 namespace SimpleBlog.Controllers
 {
@@ -9,11 +10,15 @@ namespace SimpleBlog.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly IPostRepository postRepository;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager,
+         SignInManager<ApplicationUser> signInManager,
+         IPostRepository postRepository)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.postRepository = postRepository;
         }
 
         [HttpGet("Register")]
@@ -83,6 +88,8 @@ namespace SimpleBlog.Controllers
         public async Task<IActionResult> Profile()
         {
             var user = await userManager.GetUserAsync(User);
+            var userPosts = await postRepository.GetByUserIdAsync(user!.Id);
+            user.Posts = userPosts.ToList();
             return View(user);
         }
 
