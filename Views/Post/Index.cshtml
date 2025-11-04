@@ -1,5 +1,10 @@
 ﻿@model IEnumerable<SimpleBlog.Models.Domain.Post>
-
+@{
+    foreach(var post in Model){
+        string plainText = System.Text.RegularExpressions.Regex.Replace(post.Content ?? "", "<.*?>", "");
+        post.Content = plainText.Length > 100 ? plainText.Substring(0, 100) + "..." : plainText;
+    }
+}
 <div class="container mt-4">
     <h2 class="mb-4">Posts</h2>
 
