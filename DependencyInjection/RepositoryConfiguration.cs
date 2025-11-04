@@ -1,5 +1,6 @@
 using System;
 using SimpleBlog.Repository;
+using SimpleBlog.Repository.Interfaces;
 
 namespace SimpleBlog.DependencyInjection;
 
@@ -11,6 +12,7 @@ public static class RepositoryConfiguration
         services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<ILikeRepository, LikeRepository>();
         services.AddScoped<ICommentRepository, CommentRepository>();
+        services.AddScoped<IImageRepository, ImageRepository>();
         return services;
     }
 }

@@ -6,4 +6,5 @@ public class PostCreateViewModel
     public string Content { get; set; } = string.Empty;
     public List<Guid> SelectedTagIds { get; set; } = [];
     public IEnumerable<SelectListItem>? AllTags { get; set; }
+    public string? FeaturedImageUrl { get; set; }
 }

@@ -115,6 +115,7 @@ namespace SimpleBlog.Controllers
                 Title = model.Title,
                 Content = model.Content,
                 CreatedAt = DateTime.UtcNow,
+                FeaturedImageUrl = model.FeaturedImageUrl,
                 Tags = [.. selectedTags],
                 AuthorId = currentUser!.Id,
                 Author = currentUser
@@ -136,6 +137,7 @@ namespace SimpleBlog.Controllers
                 Id = post.Id,
                 Title = post.Title,
                 Content = post.Content,
+                FeaturedImageUrl = post.FeaturedImageUrl,
                 SelectedTagIds = post.Tags?.Select(t => t.Id).ToList() ?? [],
                 AllTags = (await tagRepository.GetAllAsync())
                     .Select(t => new SelectListItem { Value = t.Id.ToString(), Text = t.Name })
@@ -161,6 +163,7 @@ namespace SimpleBlog.Controllers
 
             post.Title = model.Title;
             post.Content = model.Content;
+            post.FeaturedImageUrl = model.FeaturedImageUrl;
 
             post.Tags = new List<Tag>();
             if (model.SelectedTagIds != null && model.SelectedTagIds.Any())

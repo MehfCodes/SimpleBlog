@@ -16,9 +16,18 @@
     </div>
 
     <div class="form-group mb-3">
-        <label asp-for="Content" class="form-label"></label>
-        <textarea asp-for="Content" id="content"" class="form-control" rows="6"></textarea>
+        <label class="form-label fw-bold" for="Content">Content</label>
+        <textarea class="form-control" id="Content" asp-for="Content"></textarea>
         <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+    <div class="mb-4">
+            <label class="form-label fw-bold" for="FeaturedImageUpload"> Featured Image Upload </label>
+            <input type="file" class="form-control" id="FeaturedImageUpload">
+            <img src="" style="display:none;width:300px" class="mt-3 mx-auto" id="FeaturedImageDisplay" />
+    </div>
+    <div class="mb-4">
+            <label class="form-label fw-bold" for="FeaturedImageUrl"> Featured Image Url </label>
+            <input type="text" class="form-control" id="FeaturedImageUrl" asp-for="FeaturedImageUrl">
     </div>
     <div class="mb-3">
         <label asp-for="SelectedTagIds" class="form-label">Tags</label>
@@ -35,6 +44,27 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
    <script>
-            let editor = new FroalaEditor("#content");
+        let editor = new FroalaEditor("#Content",{
+            imageUploadURL: '/api/image'
+        });
+        let featuredImageUploadElement = document.getElementById("FeaturedImageUpload");
+        let featuredImageUrlElement = document.getElementById("FeaturedImageUrl");
+        let featuredImageDisplayElement = document.getElementById("FeaturedImageDisplay");
+        async function uploadImage(e){
+            let data = new FormData();
+            data.append('file', e.target.files[0])
+            let res = await fetch('/api/image',{
+            method:"POST",
+            headers:{
+                "Aceept":"*/*",
+            },
+            body: data
+        })
+        let result = await res.json();
+        featuredImageUrlElement.value = result.link;
+        featuredImageDisplayElement.src = result.link;
+        featuredImageDisplayElement.style.display='block';
+        }
+        featuredImageUploadElement.addEventListener("change",uploadImage)
    </script>
 }
