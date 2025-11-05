@@ -9,7 +9,7 @@
     <h2 class="mb-4">Posts</h2>
 
 
-    <form method="get" asp-action="Search" class="d-flex mb-4">
+    <form method="get" asp-action="Search" class="d-flex mb-5">
         <input type="text" name="q" value="@ViewBag.q"
                class="form-control me-2" placeholder="Enter your words" />
         <button type="submit" class="btn btn-primary">Search</button>
@@ -25,24 +25,29 @@
         {
             @foreach (var post in Model)
             {
-                <div class="col-md-4 mb-3">
-                    <div class="shadow-sm border-0 hover-card">
-                        <div style="height: 250px; overflow: hidden;">
-                            <img src=@post.FeaturedImageUrl class="card-img-top w-100 h-100" style="object-fit: cover;" alt="Post">
+                <div class="col-md-4 mb-4">
+                    <div class="card post-card border-0 rounded-4 shadow-sm overflow-hidden h-100">
+                        <div class="post-image position-relative">
+                            <img src="@post.FeaturedImageUrl" class="card-img-top w-100" alt="Post Image">
+                            <div class="overlay d-flex align-items-center justify-content-center">
+                                <a asp-controller="Post" asp-action="Details" asp-route-id="@post.Id" class="btn btn-light btn-sm fw-bold">
+                                    Read More
+                                </a>
+                            </div>
                         </div>
+
                         <div class="card-body p-4">
-                            <h5 class="card-title">@post.Title</h5>
-                            <p class="card-text text-muted">
+                            <h5 class="card-title text-dark mb-3">@post.Title</h5>
+                            <p class="card-text text-muted small mb-3">
                                 @post.Content.Substring(0, Math.Min(post.Content.Length, 100))...
                             </p>
-                            <p class="text-start">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <small class="text-secondary">
-                                    Written By <span class="fw-bold"> @post.Author?.UserName </span>
+                                    <i class="bi bi-person me-1 text-dark"></i>
+                                    @post.Author?.UserName
                                 </small>
-                            </p>
-                            <div class="text-end">
                                 <a asp-controller="Post" asp-action="Details" asp-route-id="@post.Id"
-                               class="btn btn-outline-dark btn-sm">Details</a>
+                                class="btn btn-outline-dark btn-sm rounded-pill px-3">Details</a>
                             </div>
                         </div>
                     </div>
@@ -51,3 +56,62 @@
         }
     </div>
 </div>
+<style>
+    /* Card base style */
+    .post-card {
+        transition: all 0.3s ease-in-out;
+        background-color: #ffffff;
+    }
+
+    /* Image section */
+    .post-image {
+        height: 240px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .post-image img {
+        object-fit: cover;
+        height: 100%;
+        transition: transform 0.4s ease, filter 0.4s ease;
+    }
+
+    /* Overlay for "Read More" */
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(159, 161, 162, 0.216);
+        opacity: 0;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .post-image:hover img {
+        transform: scale(1.1);
+        filter: brightness(80%);
+    }
+
+    .post-image:hover .overlay {
+        opacity: 1;
+    }
+
+    /* Hover effect for the whole card */
+    .post-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Read More button overlay */
+    .overlay .btn {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .post-image:hover .overlay .btn {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
