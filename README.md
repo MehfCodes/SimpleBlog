@@ -132,12 +132,12 @@ Use .env or Secret Manager for sensitive values
 
 For production, use appsettings.Production.json or secure secret storage
 
-## 🫱🏻‍🫲🏻Contributing
+## 🫱🏻‍🫲🏻 Contributing
 
 - Feel free to fork this repository and submit pull requests.
 - Please adhere to SOLID principles and Clean Architecture practices when contributing.
 
-## 📞Contact
+## 📞 Contact
 
 For questions and business inqueries you can reach me at
 
