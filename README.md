@@ -1,12 +1,16 @@
-# 🚀 SimpleBlog
+<h1 align="center">📝 SimpleBlog</h1>
 
-![.NET](https://img.shields.io/badge/.NET-8.0-blue) 
-![License](https://img.shields.io/badge/License-MIT-green) 
-![Build](https://img.shields.io/badge/Build-Passing-brightgreen)
+<p align="center">
+  <img src="https://img.shields.io/badge/.NET-9-blue?logo=.net&logoColor=white" />
+  <img src="https://img.shields.io/badge/License-MIT-green" />
+  <img src="https://img.shields.io/badge/EFCore-9-red" />
+</p>
 
-**SimpleBlog** is a simple blogging platform built with **ASP.NET Core MVC**.  
-It supports user management, post creation, commenting, liking, and **Google Authentication**.  
-Designed with a clean and minimal **UI/UX** using **Bootstrap**.
+<p align="center">
+<b>SimpleBlog</b> is a simple blogging platform built with <b>ASP.NET Core MVC</b>.  
+It supports user management, post creation, commenting, liking, and <b>Google Authentication</b>.  
+Designed with a clean and minimal <b>UI/UX</b> using <b>Bootstrap</b>.
+</p>
 
 ---
 <p align="center">
@@ -24,15 +28,15 @@ Designed with a clean and minimal **UI/UX** using **Bootstrap**.
 ---
 ## 📚 Table of Contents
 
-- [✨ Features](#features)
--  [🛠️ Technologies Used](#️technologies-used)
-- [⚙️ Prerequisites](#️prerequisites)
-- [🚀 Getting Started](#getting-started)
-- [📂 Project Structure](#project-structure)
-- [🖼️ UI Preview](#️ui-preview)
-- [🤝 Contributing](#contributing)
-- [📜 License](#license)
-- [📞 Contact](#contact)
+- [✨ Features](#-features)
+- [🛠️ Technologies Used](#️-technologies-used)
+- [⚙️ Prerequisites](#️-prerequisites)
+- [🚀 Getting Started](#-getting-started)
+- [📂 Project Structure](#-project-structure)
+- [🖼️ Screenshots](#️-screenshots)
+- [🤝 Contributing](#-contributing)
+- [📜 License](#-license)
+- [📞 Contact](#-contact)
 ---
 ## ✨ Features
 
