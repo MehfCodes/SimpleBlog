@@ -14,11 +14,11 @@
             }
     </div>
 </div>
- <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="card shadow p-4" style="width: 500px; height: 460px;">
+ <div class="d-flex justify-content-center align-items-center vh-90">
+        <div class="card shadow p-4" style="width: 500px; height: 520px;">
             <h3 class="text-center mb-4 fw-bold">Register</h3>
 
-            <form asp-action="Register" method="post" class="p-4">
+            <form asp-action="Register" method="post">
                 <div class="mb-3">
                     <label asp-for="Email" class="form-label fw-bold"></label>
                     <input asp-for="Email" class="form-control" placeholder="Enter your email" />
@@ -36,12 +36,25 @@
                     <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm your password" />
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
-                <div class="mb-3">
+                <div>
                     <button type="submit" class="btn btn-primary w-100 fw-bold ">
                         Register
                     </button>
                 </div>
             </form>
+            <div class="d-flex align-items-center my-3">
+                <hr class="flex-grow-1" />
+                <span class="mx-2 text-muted">or</span>
+                <hr class="flex-grow-1" />
+            </div>
+            <div class="d-grid">
+                <a asp-controller="Account" asp-action="ExternalLogin" asp-route-provider="Google"
+                class="btn btn-light border d-flex align-items-center justify-content-center fw-bold"
+                style="gap:10px; transition: all 0.2s ease-in-out;">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google logo" width="24" height="24" />
+                    <span>Sign in with Google</span>
+                </a>
+            </div>
         </div>
     </div>
 @* </div> *@

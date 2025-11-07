@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SimpleBlog.Models.Domain;
@@ -70,13 +71,71 @@ namespace SimpleBlog.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Profile");
                 }
 
                 ModelState.AddModelError("", "Invalid login attempt.");
             }
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult ExternalLogin(string provider, string? returnUrl = null)
+        {
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl });
+            var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return Challenge(properties, provider);
+        }
+        [HttpGet]
+        public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null, string? remoteError = null)
+        {
+            // returnUrl ??= Url.Content("~/");
+
+            if (remoteError != null)
+            {
+                TempData["Error"] = $"Error from external provider: {remoteError}";
+                return RedirectToAction(nameof(Login));
+            }
+            var info = await signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                TempData["Error"] = "Error loading external login information.";
+                return RedirectToAction(nameof(Login));
+            }
+            var signInResult = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
+
+            if (signInResult.Succeeded)
+            {
+                return RedirectToAction("Profile");
+            }
+
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            if (email != null)
+            {
+            var firstName = info.Principal.FindFirstValue(ClaimTypes.GivenName) 
+                ?? info.Principal.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value 
+                ?? email.Split('@')[0];
+                var user = await userManager.FindByEmailAsync(email);
+                if (user == null)
+                {
+                    user = new ApplicationUser
+                    {
+                        UserName = firstName,
+                        Email = email,
+                        EmailConfirmed = true
+                    };
+                    await userManager.CreateAsync(user);
+                }
+
+                await userManager.AddLoginAsync(user, info);
+                await signInManager.SignInAsync(user, isPersistent: false);
+                return RedirectToAction("Profile");
+            }
+
+            TempData["Error"] = "Email not received from Google.";
+            return RedirectToAction(nameof(Login));
+        }
+
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()

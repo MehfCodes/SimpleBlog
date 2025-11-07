@@ -7,7 +7,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 builder.Services.AddDatabase(builder.Configuration);
-builder.Services.AddIdentify();
+builder.Services.AddIdentify(builder.Configuration);
 builder.Services.AddRepository();
 var app = builder.Build();
 

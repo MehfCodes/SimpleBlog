@@ -7,7 +7,7 @@ namespace SimpleBlog.DependencyInjection;
 
 public static class IdentifyConfiguration
 {
-    public static IServiceCollection AddIdentify(this IServiceCollection services)
+    public static IServiceCollection AddIdentify(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
         {
@@ -21,10 +21,19 @@ public static class IdentifyConfiguration
 
         services.ConfigureApplicationCookie(options =>
         {
-            options.LoginPath = "/login"; 
+            options.LoginPath = "/login";
             options.LogoutPath = "/logout";
             options.AccessDeniedPath = "/access-denied";
         });
+        services.AddAuthentication()
+        .AddGoogle(options =>
+        {
+            var googleAuthSection = configuration.GetSection("Authentication:Google");
+
+            options.ClientId = googleAuthSection["ClientId"] ?? "";
+            options.ClientSecret = googleAuthSection["ClientSecret"] ?? "";
+        });
+
         return services;
     }
 }
