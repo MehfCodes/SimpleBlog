@@ -33,9 +33,8 @@ Designed with a clean and minimal <b>UI/UX</b> using <b>Bootstrap</b>.
 - [⚙️ Prerequisites](#️-prerequisites)
 - [🚀 Getting Started](#-getting-started)
 - [📂 Project Structure](#-project-structure)
-- [🖼️ Screenshots](#️-screenshots)
+- [🔒 Security Tips](#-security-tips)
 - [🤝 Contributing](#-contributing)
-- [📜 License](#-license)
 - [📞 Contact](#-contact)
 ---
 ## ✨ Features
