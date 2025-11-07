@@ -1,6 +1,13 @@
+using DotNetEnv;
 using SimpleBlog.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
+Env.Load();
+builder.Configuration
+       .SetBasePath(Directory.GetCurrentDirectory())
+       .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+       .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+       .AddEnvironmentVariables();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

@@ -486,3 +486,7 @@ $RECYCLE.BIN/
 Blog.db
 Blog.db-shm
 Blog.db-wal
+
+
+appsettings.Development.json
+.env
