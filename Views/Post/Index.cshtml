@@ -1,8 +1,11 @@
-﻿@model IEnumerable<SimpleBlog.Models.Domain.Post>
+﻿@using System.Web
+@model IEnumerable<SimpleBlog.Models.Domain.Post>
 @{
     foreach(var post in Model){
-        string plainText = System.Text.RegularExpressions.Regex.Replace(post.Content ?? "", "<.*?>", "");
-        post.Content = plainText.Length > 100 ? plainText.Substring(0, 100) + "..." : plainText;
+        @* string noHtml = *@
+        string noHtml = System.Text.RegularExpressions. Regex.Replace(post.Content ?? "", "<.*?>", "");
+        string plainText = HttpUtility.HtmlDecode(noHtml);
+        post.Content = plainText.Length > 90 ? plainText.Substring(0, 90) + "..." : plainText;
     }
 }
 <div class="container mt-4">
@@ -39,7 +42,7 @@
                         <div class="card-body p-4">
                             <h5 class="card-title text-dark mb-3">@post.Title</h5>
                             <p class="card-text text-muted small mb-3">
-                                @post.Content.Substring(0, Math.Min(post.Content.Length, 100))...
+                                @post.Content
                             </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <small class="text-secondary">

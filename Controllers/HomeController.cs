@@ -1,21 +1,24 @@
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SimpleBlog.Models;
+using SimpleBlog.Repository;
 
 namespace SimpleBlog.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly IPostRepository postRepository;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(IPostRepository postRepository)
     {
-        _logger = logger;
+        this.postRepository = postRepository;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var posts = await postRepository.GetRecentPostsAsync();
+        return View(posts);
     }
     public IActionResult About()
     {

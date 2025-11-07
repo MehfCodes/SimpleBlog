@@ -1,5 +1,15 @@
-﻿@{
+﻿@using System.Web
+@model IEnumerable<SimpleBlog.Models.Domain.Post>
+@{
     ViewData["Title"] = "Home";
+}
+@{
+    foreach(var post in Model){
+        @* string noHtml = *@
+        string noHtml = System.Text.RegularExpressions. Regex.Replace(post.Content ?? "", "<.*?>", "");
+        string plainText = HttpUtility.HtmlDecode(noHtml);
+        post.Content = plainText.Length > 90 ? plainText.Substring(0, 90) + "..." : plainText;
+    }
 }
 
 <!-- Hero Section -->
@@ -53,36 +63,21 @@
     <div class="container" data-aos="fade-up">
         <h2 class="fw-bold text-center mb-5">Recent Posts</h2>
         <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card shadow-sm border-0 hover-card">
-                    <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Post">
-                    <div class="card-body">
-                        <h5 class="card-title">How to Find Your Writing Voice</h5>
-                        <p class="card-text text-muted">Learn the art of writing authentically and engaging your readers.</p>
-                        <a href="#" class="btn btn-dark mt-2">Read More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card shadow-sm border-0 hover-card">
-                    <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Post">
-                    <div class="card-body">
-                        <h5 class="card-title">Daily Journaling for Creatives</h5>
-                        <p class="card-text text-muted">Boost your creativity and consistency with simple journaling habits.</p>
-                        <a href="#" class="btn btn-dark mt-2">Read More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card shadow-sm border-0 hover-card">
-                    <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Post">
-                    <div class="card-body">
-                        <h5 class="card-title">Building a Blog that Stands Out</h5>
-                        <p class="card-text text-muted">A complete guide to design, storytelling, and audience growth.</p>
-                        <a href="#" class="btn btn-dark mt-2">Read More</a>
-                    </div>
-                </div>
-            </div>
+            @if(Model.Any()){
+                @foreach (var post in Model)
+                {
+                    <div class="col-md-4">
+                        <div class="card shadow-sm border-0 hover-card h-100">
+                            <img src="@post.FeaturedImageUrl" class="card-img-top post-image" alt="Post">
+                            <div class="card-body mt-3">
+                                <h5 class="card-title">@post.Title</h5>
+                                <p class="card-text text-muted">@post.Content</p>
+                                <a href="#" class="btn btn-dark mt-4">Read More</a>
+                            </div>
+                        </div>
+                    </div>   
+                }
+            }
         </div>
     </div>
 </section>
@@ -109,29 +104,18 @@
 
 <!-- Styles -->
 <style>
+.post-image {
+    height: 240px !important;
+    overflow: hidden;
+    position: relative;
+    object-fit: cover;
+}
 img {
     max-width: 100%;
     height: auto;
     display: block;
 }
 
-.hero-section {
-    background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1500&q=80');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    height: 100vh;
-    position: relative;
-}
-.hero-section .overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 20, 40, 0.6);
-}
-.hero-content {
-    position: relative;
-    z-index: 2;
-}
 .hover-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }

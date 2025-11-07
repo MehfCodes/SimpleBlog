@@ -39,6 +39,7 @@ public class PostRepository : IPostRepository
         return await context.Posts
         .Include(p => p.Author)
         .Include(p => p.Tags)
+        .OrderByDescending(p => p.CreatedAt)
         .ToListAsync();
     }
 
@@ -74,6 +75,15 @@ public class PostRepository : IPostRepository
             .Include(p => p.Author)
             .Include(p => p.Tags)
             .Where(p => p.AuthorId == userId)
+            .ToListAsync();
+    }
+    public async Task<IEnumerable<Post>> GetRecentPostsAsync()
+    {
+        return await context.Posts
+            .Include(p => p.Author)
+            .Include(p => p.Tags)
+            .OrderByDescending(p => p.CreatedAt)
+            .Take(3)
             .ToListAsync();
     }
 
