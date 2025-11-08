@@ -42,6 +42,19 @@ public class PostRepository : IPostRepository
         .OrderByDescending(p => p.CreatedAt)
         .ToListAsync();
     }
+    public async Task<(IEnumerable<Post>, int TotalPage)> GetAllAsync(int page = 1, int pageSize = 9)
+    {
+        var totalPosts = await context.Posts.CountAsync();
+        var totalPages = (int)Math.Ceiling(totalPosts / (double)pageSize);
+        var posts = await context.Posts
+        .Include(p => p.Author)
+        .Include(p => p.Tags)
+        .OrderByDescending(p => p.CreatedAt)
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize)
+        .ToListAsync();
+        return(posts, totalPages);
+    }
 
     public async Task<Post?> GetByIdAsync(Guid id)
     {
@@ -75,7 +88,22 @@ public class PostRepository : IPostRepository
             .Include(p => p.Author)
             .Include(p => p.Tags)
             .Where(p => p.AuthorId == userId)
+            .OrderByDescending(p => p.CreatedAt)
             .ToListAsync();
+    }
+    public async Task<(IEnumerable<Post>, int TotalPage)> GetByUserIdAsync(Guid userId, int page = 1, int pageSize = 9)
+    {
+        var totalPosts = await context.Posts.CountAsync();
+        var totalPages = (int)Math.Ceiling(totalPosts / (double)pageSize);
+        var posts = await context.Posts
+            .Include(p => p.Author)
+            .Include(p => p.Tags)
+            .Where(p => p.AuthorId == userId)
+            .OrderByDescending(p => p.CreatedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+        return(posts, totalPages);
     }
     public async Task<IEnumerable<Post>> GetRecentPostsAsync()
     {

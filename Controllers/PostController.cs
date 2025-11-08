@@ -1,3 +1,4 @@
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -29,19 +30,23 @@ namespace SimpleBlog.Controllers
             this.userManager = userManager;
         }
         [HttpGet("posts")]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int page = 1)
         {
-            var posts = await postRepository.GetAllAsync();
+            var (posts, totalPages) = await postRepository.GetAllAsync(page, 9);
+            ViewBag.CurrentPage = page;
+            ViewBag.totalPages = totalPages;
             return View(posts);
         }
 
         [Authorize]
         [HttpGet("user/posts")]
-        public async Task<IActionResult> UserPostsIndex()
+        public async Task<IActionResult> UserPostsIndex(int page = 1)
         {
             var currentUser = await userManager.GetUserAsync(User);
             if (currentUser == null) return Challenge();
-            var posts = await postRepository.GetByUserIdAsync(currentUser.Id);
+            var (posts, totalPages) = await postRepository.GetByUserIdAsync(currentUser.Id, page, 5);
+            ViewBag.CurrentPage = page;
+            ViewBag.totalPages = totalPages;
             return View(posts);
         }
         [HttpGet("posts/{id}")]
