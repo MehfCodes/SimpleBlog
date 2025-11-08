@@ -17,7 +17,7 @@
             <hr />
 
             <!-- Post Content -->
-            <div class="mb-4" style="line-height: 1.8;">
+            <div class="mb-4 content-body" style="line-height: 1.8;">
                 @Html.Raw(Model.Content)
             </div>
 
@@ -63,6 +63,12 @@
 </div>
 
 <style>
+    .content-body * {
+        line-height: 2 !important;
+        font-family: serif !important;
+        font-size: 20px !important;
+        color: black !important;
+    }
     /* Hover effect on comment cards */
     .hover-card:hover {
         transform: translateY(-4px);
