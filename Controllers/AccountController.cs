@@ -66,12 +66,16 @@ namespace SimpleBlog.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(
-                    model.Email!, model.Password!, model.RememberMe, lockoutOnFailure: false);
-
-                if (result.Succeeded)
+                var user = await userManager.FindByEmailAsync(model.Email!);
+                if (user != null)
                 {
-                    return RedirectToAction("Profile");
+                    var result = await signInManager.PasswordSignInAsync(
+                        user.UserName!, model.Password!, model.RememberMe, lockoutOnFailure: false);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Profile");
+                    }
                 }
 
                 ModelState.AddModelError("", "Invalid login attempt.");
