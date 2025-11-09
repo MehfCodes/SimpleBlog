@@ -12,9 +12,9 @@ public class ImageRepository : IImageRepository
     public ImageRepository(IConfiguration configuration)
     {
         this.configuration = configuration;
-        account = new Account(configuration.GetSection("Cloudinary")["CloudName"],
-            configuration.GetSection("Cloudinary")["ApiKey"],
-            configuration.GetSection("Cloudinary")["ApiSecret"]);
+        account = new Account(Environment.GetEnvironmentVariable("Cloudinary__CloudName"),
+            Environment.GetEnvironmentVariable("Cloudinary__ApiKey"),
+            Environment.GetEnvironmentVariable("Cloudinary__ApiSecret"));
     }
     public async Task<string?> UploadAsync(IFormFile file)
     {

@@ -10,7 +10,7 @@ public static class DbConfiguration
 {
     public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration config)
     {
-        services.AddDbContext<AppDbContext>(options => options.UseNpgsql(config.GetConnectionString("DefaultConnection")));
+        services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")));
         return services;
     }
 

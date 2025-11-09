@@ -28,10 +28,10 @@ public static class IdentifyConfiguration
         services.AddAuthentication()
         .AddGoogle(options =>
         {
-            var googleAuthSection = configuration.GetSection("Authentication:Google");
+            // var googleAuthSection = configuration.GetSection("Authentication:Google");
 
-            options.ClientId = googleAuthSection["ClientId"] ?? "";
-            options.ClientSecret = googleAuthSection["ClientSecret"] ?? "";
+            options.ClientId = Environment.GetEnvironmentVariable("Authentication__Google__ClientId") ?? "";
+            options.ClientSecret =  Environment.GetEnvironmentVariable("Authentication__Google__ClientSecret") ?? "";
         });
 
         return services;
