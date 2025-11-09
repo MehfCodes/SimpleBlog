@@ -490,5 +490,5 @@ Blog.db-wal
 
 appsettings.Development.json
 appsettings.json
-.env
+*.env
 .vscode
