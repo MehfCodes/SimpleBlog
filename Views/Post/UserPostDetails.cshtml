@@ -17,7 +17,7 @@
 
     <div class="d-flex justify-content-between align-items-center mb-3 mt-5">
         <div>
-            <a asp-action="UserPostsIndex" class="btn btn-dark">Back to List</a>
+            <a onclick="history.back()" class="btn btn-dark">Back to List</a>
         </div>
         @if (User.Identity?.IsAuthenticated == true && isOwner)
         {
