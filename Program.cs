@@ -14,6 +14,12 @@ builder.Services.AddIdentify(builder.Configuration);
 builder.Services.AddRepository();
 var app = builder.Build();
 
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor |
+                       Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
+});
+
 // Seed Data
 await app.Services.SeedDatabaseAsync();
 

@@ -31,7 +31,8 @@ public static class IdentifyConfiguration
             // var googleAuthSection = configuration.GetSection("Authentication:Google");
 
             options.ClientId = Environment.GetEnvironmentVariable("AuthenticationGoogleClientId") ?? "";
-            options.ClientSecret =  Environment.GetEnvironmentVariable("AuthenticationGoogleClientSecret") ?? "";
+            options.ClientSecret = Environment.GetEnvironmentVariable("AuthenticationGoogleClientSecret") ?? "";
+            options.CallbackPath = "/signin-google";
         });
 
         return services;
