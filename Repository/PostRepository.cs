@@ -93,7 +93,7 @@ public class PostRepository : IPostRepository
     }
     public async Task<(IEnumerable<Post>, int TotalPage)> GetByUserIdAsync(Guid userId, int page = 1, int pageSize = 9)
     {
-        var totalPosts = await context.Posts.CountAsync();
+        var totalPosts = await context.Posts.Where(p => p.AuthorId == userId).CountAsync();
         var totalPages = (int)Math.Ceiling(totalPosts / (double)pageSize);
         var posts = await context.Posts
             .Include(p => p.Author)
