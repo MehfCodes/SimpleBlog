@@ -30,8 +30,8 @@ public static class IdentifyConfiguration
         {
             // var googleAuthSection = configuration.GetSection("Authentication:Google");
 
-            options.ClientId = Environment.GetEnvironmentVariable("Authentication__Google__ClientId") ?? "";
-            options.ClientSecret =  Environment.GetEnvironmentVariable("Authentication__Google__ClientSecret") ?? "";
+            options.ClientId = Environment.GetEnvironmentVariable("AuthenticationGoogleClientId") ?? "";
+            options.ClientSecret =  Environment.GetEnvironmentVariable("AuthenticationGoogleClientSecret") ?? "";
         });
 
         return services;
